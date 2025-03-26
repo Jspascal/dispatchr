@@ -1,0 +1,19 @@
+services:
+  task-queue:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - redis
+    deploy:
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
